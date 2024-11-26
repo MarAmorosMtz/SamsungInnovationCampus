@@ -1,0 +1,834 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyMLBp7BOiZqT6VmVzsTqBFv",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/MarAmorosMtz/SamsungInnovationCampus/blob/main/Test1\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "<h1> Primera Parte </h1>"
+      ],
+      "metadata": {
+        "id": "3Rm6bmyu5_vo"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import pandas as pd\n",
+        "import numpy as np\n",
+        "import os\n",
+        "\n",
+        "from google.colab import files\n",
+        "#uploaded = files.upload()\n",
+        "df = pd.read_csv('data_studentlist.csv', header='infer')\n",
+        "df.head(5)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 206
+        },
+        "id": "mnOSsFbq6HTz",
+        "outputId": "0b0a08ba-25cf-49c9-c27e-034e4d762d83"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "              Name Gender  Age  Grade Absence Bloodtype  Height  Weight\n",
+              "0    Jared Diamond      M   23      3       Y         O   165.3    68.2\n",
+              "1   Sarah O'Donnel      F   22      2       N        AB   170.1    53.0\n",
+              "2     Brian Martin      M   24      4       N         B   175.0    80.1\n",
+              "3     David Hassel      M   23      3       N        AB   182.1    85.7\n",
+              "4  Clara Rodriquez      F   20      1       Y         A   168.0    49.5"
+            ],
+            "text/html": [
+              "\n",
+              "  <div id=\"df-b9090a6e-88b9-4f98-bad6-280600e8ec5a\" class=\"colab-df-container\">\n",
+              "    <div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>Name</th>\n",
+              "      <th>Gender</th>\n",
+              "      <th>Age</th>\n",
+              "      <th>Grade</th>\n",
+              "      <th>Absence</th>\n",
+              "      <th>Bloodtype</th>\n",
+              "      <th>Height</th>\n",
+              "      <th>Weight</th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>0</th>\n",
+              "      <td>Jared Diamond</td>\n",
+              "      <td>M</td>\n",
+              "      <td>23</td>\n",
+              "      <td>3</td>\n",
+              "      <td>Y</td>\n",
+              "      <td>O</td>\n",
+              "      <td>165.3</td>\n",
+              "      <td>68.2</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>1</th>\n",
+              "      <td>Sarah O'Donnel</td>\n",
+              "      <td>F</td>\n",
+              "      <td>22</td>\n",
+              "      <td>2</td>\n",
+              "      <td>N</td>\n",
+              "      <td>AB</td>\n",
+              "      <td>170.1</td>\n",
+              "      <td>53.0</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2</th>\n",
+              "      <td>Brian Martin</td>\n",
+              "      <td>M</td>\n",
+              "      <td>24</td>\n",
+              "      <td>4</td>\n",
+              "      <td>N</td>\n",
+              "      <td>B</td>\n",
+              "      <td>175.0</td>\n",
+              "      <td>80.1</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>3</th>\n",
+              "      <td>David Hassel</td>\n",
+              "      <td>M</td>\n",
+              "      <td>23</td>\n",
+              "      <td>3</td>\n",
+              "      <td>N</td>\n",
+              "      <td>AB</td>\n",
+              "      <td>182.1</td>\n",
+              "      <td>85.7</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>4</th>\n",
+              "      <td>Clara Rodriquez</td>\n",
+              "      <td>F</td>\n",
+              "      <td>20</td>\n",
+              "      <td>1</td>\n",
+              "      <td>Y</td>\n",
+              "      <td>A</td>\n",
+              "      <td>168.0</td>\n",
+              "      <td>49.5</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>\n",
+              "    <div class=\"colab-df-buttons\">\n",
+              "\n",
+              "  <div class=\"colab-df-container\">\n",
+              "    <button class=\"colab-df-convert\" onclick=\"convertToInteractive('df-b9090a6e-88b9-4f98-bad6-280600e8ec5a')\"\n",
+              "            title=\"Convert this dataframe to an interactive table.\"\n",
+              "            style=\"display:none;\">\n",
+              "\n",
+              "  <svg xmlns=\"http://www.w3.org/2000/svg\" height=\"24px\" viewBox=\"0 -960 960 960\">\n",
+              "    <path d=\"M120-120v-720h720v720H120Zm60-500h600v-160H180v160Zm220 220h160v-160H400v160Zm0 220h160v-160H400v160ZM180-400h160v-160H180v160Zm440 0h160v-160H620v160ZM180-180h160v-160H180v160Zm440 0h160v-160H620v160Z\"/>\n",
+              "  </svg>\n",
+              "    </button>\n",
+              "\n",
+              "  <style>\n",
+              "    .colab-df-container {\n",
+              "      display:flex;\n",
+              "      gap: 12px;\n",
+              "    }\n",
+              "\n",
+              "    .colab-df-convert {\n",
+              "      background-color: #E8F0FE;\n",
+              "      border: none;\n",
+              "      border-radius: 50%;\n",
+              "      cursor: pointer;\n",
+              "      display: none;\n",
+              "      fill: #1967D2;\n",
+              "      height: 32px;\n",
+              "      padding: 0 0 0 0;\n",
+              "      width: 32px;\n",
+              "    }\n",
+              "\n",
+              "    .colab-df-convert:hover {\n",
+              "      background-color: #E2EBFA;\n",
+              "      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);\n",
+              "      fill: #174EA6;\n",
+              "    }\n",
+              "\n",
+              "    .colab-df-buttons div {\n",
+              "      margin-bottom: 4px;\n",
+              "    }\n",
+              "\n",
+              "    [theme=dark] .colab-df-convert {\n",
+              "      background-color: #3B4455;\n",
+              "      fill: #D2E3FC;\n",
+              "    }\n",
+              "\n",
+              "    [theme=dark] .colab-df-convert:hover {\n",
+              "      background-color: #434B5C;\n",
+              "      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);\n",
+              "      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));\n",
+              "      fill: #FFFFFF;\n",
+              "    }\n",
+              "  </style>\n",
+              "\n",
+              "    <script>\n",
+              "      const buttonEl =\n",
+              "        document.querySelector('#df-b9090a6e-88b9-4f98-bad6-280600e8ec5a button.colab-df-convert');\n",
+              "      buttonEl.style.display =\n",
+              "        google.colab.kernel.accessAllowed ? 'block' : 'none';\n",
+              "\n",
+              "      async function convertToInteractive(key) {\n",
+              "        const element = document.querySelector('#df-b9090a6e-88b9-4f98-bad6-280600e8ec5a');\n",
+              "        const dataTable =\n",
+              "          await google.colab.kernel.invokeFunction('convertToInteractive',\n",
+              "                                                    [key], {});\n",
+              "        if (!dataTable) return;\n",
+              "\n",
+              "        const docLinkHtml = 'Like what you see? Visit the ' +\n",
+              "          '<a target=\"_blank\" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'\n",
+              "          + ' to learn more about interactive tables.';\n",
+              "        element.innerHTML = '';\n",
+              "        dataTable['output_type'] = 'display_data';\n",
+              "        await google.colab.output.renderOutput(dataTable, element);\n",
+              "        const docLink = document.createElement('div');\n",
+              "        docLink.innerHTML = docLinkHtml;\n",
+              "        element.appendChild(docLink);\n",
+              "      }\n",
+              "    </script>\n",
+              "  </div>\n",
+              "\n",
+              "\n",
+              "<div id=\"df-95351b21-ade6-40ac-81b5-aa9fea6d179c\">\n",
+              "  <button class=\"colab-df-quickchart\" onclick=\"quickchart('df-95351b21-ade6-40ac-81b5-aa9fea6d179c')\"\n",
+              "            title=\"Suggest charts\"\n",
+              "            style=\"display:none;\">\n",
+              "\n",
+              "<svg xmlns=\"http://www.w3.org/2000/svg\" height=\"24px\"viewBox=\"0 0 24 24\"\n",
+              "     width=\"24px\">\n",
+              "    <g>\n",
+              "        <path d=\"M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z\"/>\n",
+              "    </g>\n",
+              "</svg>\n",
+              "  </button>\n",
+              "\n",
+              "<style>\n",
+              "  .colab-df-quickchart {\n",
+              "      --bg-color: #E8F0FE;\n",
+              "      --fill-color: #1967D2;\n",
+              "      --hover-bg-color: #E2EBFA;\n",
+              "      --hover-fill-color: #174EA6;\n",
+              "      --disabled-fill-color: #AAA;\n",
+              "      --disabled-bg-color: #DDD;\n",
+              "  }\n",
+              "\n",
+              "  [theme=dark] .colab-df-quickchart {\n",
+              "      --bg-color: #3B4455;\n",
+              "      --fill-color: #D2E3FC;\n",
+              "      --hover-bg-color: #434B5C;\n",
+              "      --hover-fill-color: #FFFFFF;\n",
+              "      --disabled-bg-color: #3B4455;\n",
+              "      --disabled-fill-color: #666;\n",
+              "  }\n",
+              "\n",
+              "  .colab-df-quickchart {\n",
+              "    background-color: var(--bg-color);\n",
+              "    border: none;\n",
+              "    border-radius: 50%;\n",
+              "    cursor: pointer;\n",
+              "    display: none;\n",
+              "    fill: var(--fill-color);\n",
+              "    height: 32px;\n",
+              "    padding: 0;\n",
+              "    width: 32px;\n",
+              "  }\n",
+              "\n",
+              "  .colab-df-quickchart:hover {\n",
+              "    background-color: var(--hover-bg-color);\n",
+              "    box-shadow: 0 1px 2px rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);\n",
+              "    fill: var(--button-hover-fill-color);\n",
+              "  }\n",
+              "\n",
+              "  .colab-df-quickchart-complete:disabled,\n",
+              "  .colab-df-quickchart-complete:disabled:hover {\n",
+              "    background-color: var(--disabled-bg-color);\n",
+              "    fill: var(--disabled-fill-color);\n",
+              "    box-shadow: none;\n",
+              "  }\n",
+              "\n",
+              "  .colab-df-spinner {\n",
+              "    border: 2px solid var(--fill-color);\n",
+              "    border-color: transparent;\n",
+              "    border-bottom-color: var(--fill-color);\n",
+              "    animation:\n",
+              "      spin 1s steps(1) infinite;\n",
+              "  }\n",
+              "\n",
+              "  @keyframes spin {\n",
+              "    0% {\n",
+              "      border-color: transparent;\n",
+              "      border-bottom-color: var(--fill-color);\n",
+              "      border-left-color: var(--fill-color);\n",
+              "    }\n",
+              "    20% {\n",
+              "      border-color: transparent;\n",
+              "      border-left-color: var(--fill-color);\n",
+              "      border-top-color: var(--fill-color);\n",
+              "    }\n",
+              "    30% {\n",
+              "      border-color: transparent;\n",
+              "      border-left-color: var(--fill-color);\n",
+              "      border-top-color: var(--fill-color);\n",
+              "      border-right-color: var(--fill-color);\n",
+              "    }\n",
+              "    40% {\n",
+              "      border-color: transparent;\n",
+              "      border-right-color: var(--fill-color);\n",
+              "      border-top-color: var(--fill-color);\n",
+              "    }\n",
+              "    60% {\n",
+              "      border-color: transparent;\n",
+              "      border-right-color: var(--fill-color);\n",
+              "    }\n",
+              "    80% {\n",
+              "      border-color: transparent;\n",
+              "      border-right-color: var(--fill-color);\n",
+              "      border-bottom-color: var(--fill-color);\n",
+              "    }\n",
+              "    90% {\n",
+              "      border-color: transparent;\n",
+              "      border-bottom-color: var(--fill-color);\n",
+              "    }\n",
+              "  }\n",
+              "</style>\n",
+              "\n",
+              "  <script>\n",
+              "    async function quickchart(key) {\n",
+              "      const quickchartButtonEl =\n",
+              "        document.querySelector('#' + key + ' button');\n",
+              "      quickchartButtonEl.disabled = true;  // To prevent multiple clicks.\n",
+              "      quickchartButtonEl.classList.add('colab-df-spinner');\n",
+              "      try {\n",
+              "        const charts = await google.colab.kernel.invokeFunction(\n",
+              "            'suggestCharts', [key], {});\n",
+              "      } catch (error) {\n",
+              "        console.error('Error during call to suggestCharts:', error);\n",
+              "      }\n",
+              "      quickchartButtonEl.classList.remove('colab-df-spinner');\n",
+              "      quickchartButtonEl.classList.add('colab-df-quickchart-complete');\n",
+              "    }\n",
+              "    (() => {\n",
+              "      let quickchartButtonEl =\n",
+              "        document.querySelector('#df-95351b21-ade6-40ac-81b5-aa9fea6d179c button');\n",
+              "      quickchartButtonEl.style.display =\n",
+              "        google.colab.kernel.accessAllowed ? 'block' : 'none';\n",
+              "    })();\n",
+              "  </script>\n",
+              "</div>\n",
+              "\n",
+              "    </div>\n",
+              "  </div>\n"
+            ],
+            "application/vnd.google.colaboratory.intrinsic+json": {
+              "type": "dataframe",
+              "variable_name": "df",
+              "summary": "{\n  \"name\": \"df\",\n  \"rows\": 17,\n  \"fields\": [\n    {\n      \"column\": \"Name\",\n      \"properties\": {\n        \"dtype\": \"string\",\n        \"num_unique_values\": 17,\n        \"samples\": [\n          \"Jared Diamond\",\n          \"Sarah O'Donnel\",\n          \"Jennifer Lorentz\"\n        ],\n        \"semantic_type\": \"\",\n        \"description\": \"\"\n      }\n    },\n    {\n      \"column\": \"Gender\",\n      \"properties\": {\n        \"dtype\": \"category\",\n        \"num_unique_values\": 2,\n        \"samples\": [\n          \"F\",\n          \"M\"\n        ],\n        \"semantic_type\": \"\",\n        \"description\": \"\"\n      }\n    },\n    {\n      \"column\": \"Age\",\n      \"properties\": {\n        \"dtype\": \"number\",\n        \"std\": 1,\n        \"min\": 20,\n        \"max\": 24,\n        \"num_unique_values\": 5,\n        \"samples\": [\n          22,\n          21\n        ],\n        \"semantic_type\": \"\",\n        \"description\": \"\"\n      }\n    },\n    {\n      \"column\": \"Grade\",\n      \"properties\": {\n        \"dtype\": \"number\",\n        \"std\": 1,\n        \"min\": 1,\n        \"max\": 4,\n        \"num_unique_values\": 4,\n        \"samples\": [\n          2,\n          1\n        ],\n        \"semantic_type\": \"\",\n        \"description\": \"\"\n      }\n    },\n    {\n      \"column\": \"Absence\",\n      \"properties\": {\n        \"dtype\": \"category\",\n        \"num_unique_values\": 2,\n        \"samples\": [\n          \"N\",\n          \"Y\"\n        ],\n        \"semantic_type\": \"\",\n        \"description\": \"\"\n      }\n    },\n    {\n      \"column\": \"Bloodtype\",\n      \"properties\": {\n        \"dtype\": \"category\",\n        \"num_unique_values\": 4,\n        \"samples\": [\n          \"AB\",\n          \"A\"\n        ],\n        \"semantic_type\": \"\",\n        \"description\": \"\"\n      }\n    },\n    {\n      \"column\": \"Height\",\n      \"properties\": {\n        \"dtype\": \"number\",\n        \"std\": 7.849756459316956,\n        \"min\": 155.2,\n        \"max\": 182.1,\n        \"num_unique_values\": 16,\n        \"samples\": [\n          165.3,\n          170.1\n        ],\n        \"semantic_type\": \"\",\n        \"description\": \"\"\n      }\n    },\n    {\n      \"column\": \"Weight\",\n      \"properties\": {\n        \"dtype\": \"number\",\n        \"std\": 11.851684541472922,\n        \"min\": 45.2,\n        \"max\": 85.7,\n        \"num_unique_values\": 17,\n        \"samples\": [\n          68.2,\n          53.0\n        ],\n        \"semantic_type\": \"\",\n        \"description\": \"\"\n      }\n    }\n  ]\n}"
+            }
+          },
+          "metadata": {},
+          "execution_count": 13
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "<h2> 1. Altura promedio de los estudiantes varones </h2>"
+      ],
+      "metadata": {
+        "id": "VueZlfCQ6m3G"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "varones = df[df['Gender'] == 'M']\n",
+        "varones_mean = varones['Height'].mean()\n",
+        "print(\"La altura promedio de los estudiantes varones es: \",round(varones_mean, 2))"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "_YDPqloz6sU6",
+        "outputId": "4c48cbf4-40ed-483d-de54-5329af19b799"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "La altura promedio de los estudiantes varones es:  172.41\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "<h3> 2. Altura promedio de las estudiantes </h3>"
+      ],
+      "metadata": {
+        "id": "tHtIhneH7KuX"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "mujeres = df[df['Gender'] == 'F']\n",
+        "mujeres_mean = mujeres['Height'].mean()\n",
+        "print(\"La altura promedio de las estudiantes mujeres es: \",round(mujeres_mean, 2))"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "DHyKj4H47Pid",
+        "outputId": "e4c0353c-3b34-469e-baf5-5064dea094ef"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "La altura promedio de las estudiantes mujeres es:  166.64\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "<h3> 3. Peso promedio de los estudiantes varones </h3>"
+      ],
+      "metadata": {
+        "id": "74sKk0Bx7UM0"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "varones_mean = varones['Weight'].mean()\n",
+        "print(\"El peso promedio de los estudiantes varones es: \",round(varones_mean, 2))"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "doDXgXR87i2n",
+        "outputId": "68987f8c-48a3-464d-b592-28e6e7656fc4"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "El peso promedio de los estudiantes varones es:  68.5\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "<h3> 4. Peso promedio de las estudiantes </h3>"
+      ],
+      "metadata": {
+        "id": "WJNptb4t7153"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "mujeres_mean = mujeres['Weight'].mean()\n",
+        "print(\"El peso promedio de las estudiantes mujeres es: \",round(mujeres_mean, 2))"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "X-EkFivV77V1",
+        "outputId": "64393e8f-16d9-4fd3-d6eb-a2d11642da02"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "El peso promedio de las estudiantes mujeres es:  50.44\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "<h3> 5. La mayor estatura entre los estudiantes varones </h3>"
+      ],
+      "metadata": {
+        "id": "B_82X5M_8Fhq"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "varones_max = varones.max()\n",
+        "print(\"La mayor estatura entre los estudiantes varones es: \",varones_max['Height'])"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "fEt6JgPT8LMy",
+        "outputId": "296a3939-94e2-4374-bf63-076c34aa3476"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "La mayor estatura entre los estudiantes varones es:  182.1\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "<h3> 6. La menor estatura ntre las estudiantes </h3>"
+      ],
+      "metadata": {
+        "id": "XtSwb4199M8X"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "mujeres_min = mujeres.min()\n",
+        "print(\"La menor estatura entre las estudiantes mujeres es: \",mujeres_min['Height'])"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "sB5ZlFql9QgU",
+        "outputId": "21a427ac-78bc-433c-e978-3ad0e58c297e"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "La menor estatura entre las estudiantes mujeres es:  155.2\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "<h3> 7. El peso mas ligero entre los estudiantes varones de estatura superior a 1.75 m </h3>"
+      ],
+      "metadata": {
+        "id": "KywBrbVc9bU2"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [],
+      "metadata": {
+        "id": "h0qhjJw_90Mx"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "varones_superior = varones[varones['Height'] > 175]\n",
+        "varones_superior_min = varones_superior.min()\n",
+        "print(\"El peso mas ligero entre los estudiantes varones de estatura superior a 1.75 es: \",varones_superior_min['Weight'])"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "E8kIgI2L9gm0",
+        "outputId": "b1ca6e15-24dd-4395-b652-c25a5ba96854"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "El peso mas ligero entre los estudiantes varones de estatura superior a 1.75 es:  61.3\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "<h3> 8. El mayor peso entre las estudiantes de estatura inferior a 1.60 m </h3>"
+      ],
+      "metadata": {
+        "id": "EA2MT8Fh9vKc"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "mujeres_inferior = mujeres[mujeres['Height'] < 160]\n",
+        "mujeres_inferior_max = mujeres_inferior.max()\n",
+        "print(\"El mayor peso entre las estudiantes de estatura inferior a 1.60 es: \",mujeres_inferior_max['Weight'])"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "R1m0PP1O92AT",
+        "outputId": "a0f38e35-7c9c-4a61-d893-d5b01e091e74"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "El mayor peso entre las estudiantes de estatura inferior a 1.60 es:  45.3\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "<h3> 9. La nota primedio de los alumnos sin ausencias ('N') </h3>"
+      ],
+      "metadata": {
+        "id": "OBxp2GS9-h0V"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "alumnos_sin_ausencias = df[df['Absence'] == 'N']\n",
+        "alumnos_sin_ausencias_mean = alumnos_sin_ausencias['Grade'].mean()\n",
+        "print(\"La nota promedio de los alumnos sin ausencias es: \", round(alumnos_sin_ausencias_mean, 2))"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "DJPQE-5L-oj8",
+        "outputId": "a7358cf0-6d71-4076-9efd-0024248d6c8f"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "La nota promedio de los alumnos sin ausencias es:  2.08\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "<h3> 10. La nota promediio de los alumnos con absentismo ('Y') </h3>"
+      ],
+      "metadata": {
+        "id": "1H_Vc12H_MWx"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "alumnos_ausentes = df[df['Absence'] == 'Y']\n",
+        "alumnos_ausentes_mean = alumnos_ausentes['Grade'].mean()\n",
+        "print(\"La nota promedio de los alumnos con ausencias es: \", round(alumnos_ausentes_mean, 2))"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "JZkMdgpb_VNC",
+        "outputId": "f194e0dc-0cc7-4e0e-a0a4-6cac1405b2cf"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "La nota promedio de los alumnos con ausencias es:  3.0\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "<h3> 11. Altura promedio de los alumnos con grupo sanguíneo 'A' o 'AB' </h3>"
+      ],
+      "metadata": {
+        "id": "9ilpyKg4_fRZ"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "alumnos_sangreA = df[df['Bloodtype'] == 'A']\n",
+        "alumnos_sangreAB = df[df['Bloodtype'] == 'AB']\n",
+        "alumnos_sangre = pd.concat([alumnos_sangreA, alumnos_sangreAB])\n",
+        "alumnos_sangre_mean = alumnos_sangre['Height'].mean()\n",
+        "print(\"La altura promedio de los alumnos con grupo sanguíneo 'A' o 'AB' es: \", round(alumnos_sangre_mean, 2))"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "ooo3QBmO_qUl",
+        "outputId": "03b020e4-b5be-4dc9-8fb9-cea7df62ba25"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "La altura promedio de los alumnos con grupo sanguíneo 'A' o 'AB' es:  172.64\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "<h3> 12. Altura promedio de los alumnos varones con grupo sanguineo 'A' o 'AB' </h3>"
+      ],
+      "metadata": {
+        "id": "nsetWnvTAIcX"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "varones_sangreA = varones[varones['Bloodtype'] == 'A']\n",
+        "varones_sangreAB = varones[varones['Bloodtype'] == 'AB']\n",
+        "varones_sangre = pd.concat([varones_sangreA, varones_sangreAB])\n",
+        "varones_sangre_mean = varones_sangre['Height'].mean()\n",
+        "print(\"La altura promedio de los alumnos varones con grupo sanguíneo 'A' o 'AB' es: \", round(varones_sangre_mean, 2))"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "c8WofcAWAPgD",
+        "outputId": "e42cb193-36e9-41bc-c373-81a597ce3e6b"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "La altura promedio de los alumnos varones con grupo sanguíneo 'A' o 'AB' es:  173.38\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "<h3> 13. Edad promedio de los alumnos con absentismo ('Y') cuya nota es mayor o igual a 3 </h3>"
+      ],
+      "metadata": {
+        "id": "wkkdCsNlAaqz"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "alumnos_ausentes_3 = alumnos_ausentes[alumnos_ausentes['Grade'] >= 3]\n",
+        "alumnos_ausentes_3_mean = alumnos_ausentes_3['Age'].mean()\n",
+        "print(\"La edad promedio de los alumnos con ausencias ('Y') cuya nota es mayor o igual a 3 es: \", round(alumnos_ausentes_3_mean, 2))"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "kVNKpEiCAi8y",
+        "outputId": "7e544618-b2e1-48e0-f4d4-5268c78f7c4e"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "La edad promedio de los alumnos con ausencias ('Y') cuya nota es mayor o igual a 3 es:  23.67\n"
+          ]
+        }
+      ]
+    }
+  ]
+}
